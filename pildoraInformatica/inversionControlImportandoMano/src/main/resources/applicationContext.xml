@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.1.xsd
+">
+
+    <!-- Creacion del informe que va a ser inyectado en el BEAN de abajo-->
+    <bean id="miInforme" class="org.example.inyeccionDependencia.Informe"></bean>
+
+    <!--Comentario, crear un bean para un empleado -->
+    <!-- id = identificador,class = clase del BEAN que se va a crear -->
+    <bean id="miEmpleado" class="org.example.modelos.DirectorEmpleado_cosctructInyec">
+    <!-- Para configurar la depdencia necesitamos un constructor -->
+    <constructor-arg ref="miInforme"></constructor-arg>
+    </bean>
+
+
+    <bean id="secretarioInyeccionSetter" class="org.example.modelos.SecretarioEmpleado_setterInyec">
+        <!-- Inyeccion por SETTER, en este caso se utiliza la etuiqueta 'property' que tiene como nombre como se llame el set*(), al *
+        y como ref al bean que tien que proveer-->
+        <property name="creacionInformes" ref="miInforme"></property>
+        <!-- Injeccion de campos, ¿sigue siendo setter?, una manera diferente -->
+        <property name="email" value="@VIPERA.com"></property>
+        <property name="empresa" value="VIPERA"></property>
+    </bean>
+
+    <!-- fichero para cargar los campos de empresa y email -->
+    <context:property-placeholder location="inyectionToXML.propiedades"></context:property-placeholder>
+    <bean id="jefeEmpleadoInyecSetter" class="org.example.modelos.JefeEmpleado">
+        <property name="creacionInformesEmpleado" ref="miInforme"></property>
+        <!-- estos campos son cargados desde el fichero definido antes de este bean -->
+        <property name="email" value="${email}"></property>
+        <property name="empresa" value="${empresa}"></property>
+    </bean>
+
+</beans>

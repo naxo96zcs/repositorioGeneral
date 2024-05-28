@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>JakartaEE_webApp2</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>JakartaEE_webApp2</name>
+  <packaging>war</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+      <junit.version>5.9.1</junit.version>
+      </properties>
+
+  <dependencies>
+                                                                        <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>                                                
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- ################# SPRING ################# -->
+
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>6.1.5</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+          <version>6.1.5</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+      <!-- necesario para el controlador (clase) y bean del servlet-->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-webmvc</artifactId>
+          <version>6.1.5</version>
+      </dependency>
+
+
+      <!-- ################# Hibernate #################-->
+
+      <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+      <dependency>
+          <groupId>org.hibernate.validator</groupId>
+          <artifactId>hibernate-validator</artifactId>
+          <version>8.0.1.Final</version>
+      </dependency>
+
+
+      <!-- ################# FastInfoSET #################-->
+
+      <!-- https://mvnrepository.com/artifact/com.sun.xml.fastinfoset/FastInfoset -->
+      <dependency>
+          <groupId>com.sun.xml.fastinfoset</groupId>
+          <artifactId>FastInfoset</artifactId>
+          <version>2.1.1</version>
+      </dependency>
+
+
+
+      <!-- ################# antlr4 #################-->
+
+      <!-- https://mvnrepository.com/artifact/org.antlr/antlr4 -->
+      <dependency>
+          <groupId>org.antlr</groupId>
+          <artifactId>antlr4</artifactId>
+          <version>4.13.1</version>
+      </dependency>
+
+      <!-- ################# byte-buddy #################-->
+
+      <dependency>
+          <groupId>net.bytebuddy</groupId>
+          <artifactId>byte-buddy</artifactId>
+          <version>1.12.2</version>
+      </dependency>
+
+
+      <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.0.1</version>
+          <scope>provided</scope>
+      </dependency>
+
+
+
+
+
+
+  </dependencies>
+
+  <build>
+        <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+      </plugin>                </plugins>
+  </build>
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.1.xsd
+">
+
+    <bean id="informe" class="org.example.inyeccionDependencia.Informe"></bean>
+
+    <!-- A la hora se fijar si un bean es proto o singleton se define en el SCOPE de l bean-->
+    <!-- propiedades init y destroy utilizadas para la llamar a los metodos antes y despues de la creacion y destruccion del bean -->
+    <bean id="secretarioSingleProto" class="org.example.modelos.beanCycle.EmpleadoBeanCycleModel" scope="singleton"
+          init-method="antesCreacion"
+          destroy-method="metodoFinal">
+
+        <property name="informes" ref="informe"></property>
+        <property name="email" value="@VIPERA.com"></property>
+        <property name="empresa" value="VIPERA"></property>
+
+
+    </bean>
+
+
+</beans>

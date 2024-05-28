@@ -1,0 +1,17 @@
+body{
+    background-color: lightgrey;
+}
+table{
+    background-color: lightcoral;
+
+    table-layout: fixed;
+    width: 69%;
+    text-align: center;
+}
+table, th, td {
+    border: 1px solid lightgrey;
+}
+
+.forms{
+    background-color: aliceblue;
+}

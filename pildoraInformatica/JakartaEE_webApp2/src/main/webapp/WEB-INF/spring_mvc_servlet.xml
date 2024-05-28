@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/context
+    	http://www.springframework.org/schema/context/spring-context.xsd
+    	http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!--  paquete a escanear en busca de componentes -->
+	<context:component-scan base-package="com.example.jakartaee_webapp2" />
+
+
+	<!-- MVC Annotation Driver -->
+	<mvc:annotation-driven/>
+
+	<!-- Configuraci�n del view resolver-->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/vista/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- para indicar recursos externos, como imagenes
+	-La imagen debe estar dentro de la carpeta de "webapp" si se carga desde el .JSP
+	-Funciona tanto * como con **
+	-->
+	<mvc:resources mapping="/resources/*" location="/resources/" />
+
+	<!--El resources "mvc:resources" no hace referencia a esta carpeta de recursos, es otra definida dentro de webapp-->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		 <!-- CUIDADO aqui con el name si se pone "basenames" hay que pasarle una lista pero si se pasa un unico valor
+		 se usa en singular "basename"
+		 Para que funcione es neceario apuntar directamente al recurso y colocarlo en la carpeta src/main/resources
+		 (original del proyecto) -->
+		<property name="basename" value="messages"/>
+
+
+	</bean>
+
+
+</beans>
+
+
+
+
+
