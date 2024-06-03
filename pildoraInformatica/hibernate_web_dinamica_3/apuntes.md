@@ -1,4 +1,5 @@
-# Descripcion
+# Proyecto web dinámico CRUD
+## Descripcion
 
 CRUD, Hibernate, JSP, servlet
 

@@ -20,6 +20,7 @@ action: es al controlador que va a llamar, PostMapping
 method: post porque estamos añadiendo contenido y va un cliente en el paquete
 --%>
 <form:form action="insertarCliente" modelAttribute="clienteForm" method="post" >
+    <!--Es oculto/hidden para que conservar el id entre modelos y no se vea como un campo en el formulario cuando se muestre--->
     <form:hidden path="id"/>
     <table>
         <tr>
