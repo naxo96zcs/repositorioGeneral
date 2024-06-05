@@ -1,4 +1,27 @@
 # Proyecto web dinámico CRUD
+# Index
+- [Proyecto web dinámico CRUD](#proyecto-web-dinámico-crud)
+   * [Descripcion](#descripcion)
+- [Crear BD](#crear-bd)
+- [Crear servlet check BD](#crear-servlet-check-bd)
+- [Etiquetas de JavaEE](#etiquetas-de-javaee)
+- [Importante los facets](#importante-los-facets)
+- [Librerias / Maven](#librerias-maven)
+- [Crear controlador y pagina JSP](#crear-controlador-y-pagina-jsp)
+- [Creacion de Entidad](#creacion-de-entidad)
+- [DAO](#dao)
+   * [Interfaz e implementacion DAO](#interfaz-e-implementacion-dao)
+      + [@Repository](#repository)
+      + [@Transactional](#transactional)
+   * [Create/Insertar cliente](#createinsertar-cliente)
+   * [Update/Actualizacion de un cliente (modificacion en la creacion)](#updateactualizacion-de-un-cliente-modificacion-en-la-creacion)
+- [JSP](#jsp)
+   * [Errores encontrados en la creacion del JSP](#errores-encontrados-en-la-creacion-del-jsp)
+- [Pagina inicio y CSS](#pagina-inicio-y-css)
+   * [index.jsp](#indexjsp)
+   * [CSS](#css)
+
+
 ## Descripcion
 
 CRUD, Hibernate, JSP, servlet
@@ -196,6 +219,37 @@ public String insertarCliente(@ModelAttribute("agregarCliente")Cliente cliente){
 3. Modificar el formulario para que incluya el campo id del cliente oculto
 4. Modificar [Controlador.java](src%2Fmain%2Fjava%2Fcom%2Fconexion%2Fpildora%2Fes%2Fcontrolador%2FControlador.java) el metodo que se encarga de insertar, consultara la BD para ver si existe el cliente, sino existe lo inserta, sino lo modifica
 
+## Eliminacion de un cliente
+
+En este caso se implementan dos metodos en el dao y la interfaz se definen, uno que borra el cliente por la id del cliente y otro por el cliente que se le pase como objeto:
+- **Borrado por id** (principal): es el que se ha utilizado para realizar el borrado del cliente. Se crea la query con un parametro, que se sustituye con la id obtenido por *parametro de entra* y se ejecuta la query.
+```java
+    @Override
+    @Transactional
+    public void eliminarClienteById(int clienteId) {
+        Session session = sessionFactory.getCurrentSession();
+
+        //Creacion de la query con el parametro 'IdDelCliente' para el borrado del cliente por la id
+        Query consulta = session.createQuery("DELETE FROM Cliente WHERE id=:IdDelCliente");
+        //En la consulta se sustituye/establece el valor de 'IdDelCliente' por la del parametro de entrada clienteId
+        consulta.setParameter("IdDelCliente",clienteId);
+        //Se ejecuta la query
+        consulta.executeUpdate();
+
+        System.out.println("[DAO]: Cliente borrado con id "+clienteId);
+    }
+```
+- **Borrado por objeto Cliente**: este es un metodo mas limpio de programar, obteniendo la id del cliente en el controlador se debe recuperar el cliente y luego borrarlo pasando el cliente obtenido. Este es mas sencillo de programar pero tiene un coste mayor necesita dos peticiones a la BD y la anterior solo una.
+```java
+    @Override
+    @Transactional
+    public void eliminarCliente(Cliente cliente) {
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(cliente);
+        System.out.println("[DAO]: Cliente borrado "+cliente.getId());
+    }
+```
+
 # JSP
 
 En el archivo JSP para iterar sobre la lista que se le pasa como parametro es necesario implementar la taglib (con el prefijo **c** en este caso) de
@@ -237,6 +291,24 @@ jakarta  ([Error en stackoverflow](https://stackoverflow.com/questions/4928271/h
 <version>3.0.1</version>
 </dependency>
 ```
+
+## JavaScript utilizado en el borrado
+Para que el borrado no ocurra al instante que se selecciona el elemento se utiliza un **onclick** en el jsp para que haga aparecer una ventana al pulsar el boton y haya un chequeo antes de borrar al cliente.
+
+Cone este codigo del jsp al hacer onclick surge una ventana en la cual si el cliente cancela no se lleva a cabo la accion<br>
+*Cancel = false -> if(!false) retorna false*, por lo que no se hace la accion.
+*Acepta = true -> if(!true) *nada**, por lo que se lleva a cabo ir al controlador "${linkEliminar}" y eliminara al cliente.
+
+```html
+<td>
+    <a href="${linkEliminar}">
+        <input type="button" value="Eliminar" onclick=
+         "if(!(confirm('Desea borrar al cliente ${clienteTenp.nombre} ${clienteTenp.apellido}?'))) return false">
+    </a>
+</td>
+```
+
+
 # Pagina inicio y CSS
 ## index.jsp
 Scrip redireccion, unicamente se ha creado y añadido una linea en [index.jsp](src%2Fmain%2Fwebapp%2Findex.jsp) para que redireccione a [tablaCliente.jsp](src%2Fmain%2Fwebapp%2FWEB-INF%2Fview%2FtablaCliente.jsp)
