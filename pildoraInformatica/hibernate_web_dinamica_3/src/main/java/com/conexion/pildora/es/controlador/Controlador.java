@@ -105,4 +105,19 @@ public class Controlador {
         return "redirect:/cliente/lista";
     }*/
 
+    @RequestMapping("/eliminarCliente")
+    public String eliminarCliente(@RequestParam("clienteId") int clienteId, Model model){
+
+        try {
+            Cliente cliente = clienteDAO.getCliente(clienteId);
+            model.addAttribute("clienteForm", cliente);
+            System.out.println("[Controller]:Borrando cliente:"+cliente.getId());
+            clienteDAO.eliminarClienteById(clienteId);
+        } catch (Exception e) {
+            System.out.println("[Controller]:Cliente no encontrado");
+        }
+        //jsp de formulario para aceptar el borrado, metiendole algun campo para indicar el borrado
+        return "redirect:/cliente/lista";
+    }
+
 }
