@@ -46,9 +46,37 @@ public class ClienteDAOImplementation implements ClienteDAO{
     @Override
     @Transactional
     public void actualizarCliente(Cliente cliente) {
-        System.out.println("[DAO]:Actualizando cliente:"+cliente.getId());
+        System.out.println("[DAO]: Actualizando cliente "+cliente.getId());
         Session session = sessionFactory.getCurrentSession();
         //session.update(cliente);   FIXME DEPRECATED
         session.merge(cliente);
+    }
+
+    /**
+     *
+     * @param cliente si el parametro de entrada es cliente el borrado es mas sencillo pero
+     *                añade complejidad si solo tenemos la id, incrementando el coste
+     */
+    @Override
+    @Transactional
+    public void eliminarCliente(Cliente cliente) {
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(cliente);
+        System.out.println("[DAO]: Cliente borrado "+cliente.getId());
+    }
+
+    @Override
+    @Transactional
+    public void eliminarClienteById(int clienteId) {
+        Session session = sessionFactory.getCurrentSession();
+
+        //Creacion de la query con el parametro 'IdDelCliente' para el borrado del cliente por la id
+        Query consulta = session.createQuery("DELETE FROM Cliente WHERE id=:IdDelCliente");
+        //En la consulta se sustituye/establece el valor de 'IdDelCliente' por la del parametro de entrada clienteId
+        consulta.setParameter("IdDelCliente",clienteId);
+        //Se ejecuta la query
+        consulta.executeUpdate();
+
+        System.out.println("[DAO]: Cliente borrado con id "+clienteId);
     }
 }
