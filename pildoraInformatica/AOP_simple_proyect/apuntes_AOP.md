@@ -27,6 +27,8 @@ modificase una funcionalidad habría que hacerlo en cada uno de los metodos.
 ## Aspectos
 La ejecución de los aspectos puede hacerse antes o despues del codigo que se quiere ejecutar (antes o despues de la insercción).
 
+Esto variará con las etiquetas utilizadas @Before, @After...
+
 # Codigo
 Para la puesta en marcha de este proyecto:
 1. Exportar las librerías necesarias
@@ -52,7 +54,8 @@ public class Configuracion {
         context.close();
     }
 ````
-4. Creacion del aspecto, este se ejecutara antes debido a _Before_
+4. Creacion del aspecto, este se ejecutara antes debido a:
+   * _Before_, que hace que se ejecute el codigo antes del metodo indicado
 ```java
 @Aspect
 @Component
@@ -64,9 +67,33 @@ public class LoginConAspecto {
     }
 }
 ```
+## Aplicar el aspecto a una clase en concreto
+Si tenemos dos clases A y B con el metodo insertarCliente en ambas, el aspecto siempre se ejecuta cuando se ejecuten entos metodos independientemente de que clase se este utilizando
+
+Por defecto el aspecto se aplica para todos los metodos que coincidan para hacer que solo se le aplique a una clase hay que especificar una ruta (**org.example.DAO.ClienteVipDAO**) delante del metodo,
+de esta manera lo que hara es que se le aplique solo al metodo de esa clase.
+````java
+    @Before("execution(public void org.example.DAO.ClienteVipDAO.insertaCliente())")
+    public void antesInsertarCliente() {
+        System.out.println("El usuario esta logueado");
+        System.out.println("El perfil para insertar los clientes es correcto");
+    }
+````
+## Aplicar el aspecto a metodos diferentes en distintas clases
+Es importante que tengan un **lexico parecido** tipo getX, insertX, deleteX...
+
+En este caso todos los metodos que se llamen **_metodoAspecto..._** se ejecutará el aspecto antes de ejecutarse el método, Hay que tener en cuenta que siempre deben de empezar igual. (En este ejemplo, los metodos que empiecen de la misma manera 'metodoAspecto...' se ejecutara el aspecto antes de estos) 
+````java
+@Before("execution(public void metodoAspecto*())")
+    public void aspectoEnMetodosDiferentes() {
+        //codigo
+    }
+````
 
 
 # Refs
 [Teoria AOP](https://www.youtube.com/watch?v=AjXPs9nVHow&list=PLU8oAlHdN5Blq85GIxtKjIXdfHPksV_Hm&index=76&pp=iAQB)
+
+[Baeldung aspectj](https://www.baeldung.com/aspectj)
 
 

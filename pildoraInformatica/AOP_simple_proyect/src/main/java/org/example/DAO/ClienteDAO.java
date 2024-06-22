@@ -7,4 +7,8 @@ public class ClienteDAO {
     public void insertaCliente(){
         System.out.println("Insertando cliente");
     }
+
+    public void metodoAspecto1(){
+        System.out.println(this.getClass().getSimpleName());
+    }
 }
