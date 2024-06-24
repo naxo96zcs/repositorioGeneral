@@ -136,6 +136,25 @@ public void metodoConNArgumentos(){
 }
 ````
 En este caso el aspecto del apartado anterior se ejecutaria tambien cuando se usase el metodo de la clase 1
+
+# Declaracion y reutilizacion de pointcut expresion
+Si la expresion del pointcut es demasiado larga puede crearse un metodo para reducir codigo y/o mejorar su reutilizacion. 
+A la hora de hacer cambios tambien es mas sencillo solo habría que modificar el **@Pointcut** creado:
+````java
+@Pointcut("execution(public void org.example.DAO.ClienteVipDAO.insertaCliente())")
+public void paraInsertar(){}
+
+@Before("paraInsertar()")
+public void antesInsertarCliente() {
+   System.out.println("Aspect - El usuario esta logueado");
+   System.out.println("Aspect - El perfil para insertar los clientes es correcto");
+}
+````
+Asi el aspecto aplicado sobre el indicando en _paraInsertar()_ y se utilizaria como aparece en el Before.
+
+Si hubiese que hacer cambios sería mucho mas sencillo y rapido
+
+
 # Refs
 [Teoria AOP](https://www.youtube.com/watch?v=AjXPs9nVHow&list=PLU8oAlHdN5Blq85GIxtKjIXdfHPksV_Hm&index=76&pp=iAQB)
 
