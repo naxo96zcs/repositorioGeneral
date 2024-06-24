@@ -89,8 +89,53 @@ En este caso todos los metodos que se llamen **_metodoAspecto..._** se ejecutar√
         //codigo
     }
 ````
+## Metodos con diferentes retornos
+Con el ascterisco en la posicion del void (por ejemplo) prodr√≠a hacer referencia cualquier tipo por ejemplo si el metodo que hace referencia 
+en una clase devuelve un int y en la otra clase un String nom habira que duplicar el codigo y ambas darian lugar a la ejecucion de este ascpecto
+````java
+//Clase 1
+public String devolverDNI(){
+        return "75633324-T";
+    }
+//Clase 2
+public int devolverDNI(){
+   return "75633324-T";
+}
+//Clase aspecto
+@Before("execution(public * devolverDNI())")
+    public void metodoAspectoDiferenteOutput() {
+        System.out.println("Aspect - DiferentOutputs");
+    }
+````
 
-
+## Metodos con un argumento
+El metodo _creacionCliente_ tiene como argumento un cliente, como es una clase propia y no primitivo (String, int ...) es necesario
+poner su ruta de referencia (org.example.*) para que la clase aspecto sepa a que se refiere
+````java
+@Before("execution(public void creacionCliente(org.example.model.Cliente))")
+public void metodoConUnArgumento(){
+    System.out.println("Aspect - MethodAnArgument");
+}
+````
+## Metodos con argumentos distintos
+Como comodin puede usarse dos puntos '**_.._**' como comodin por si se necesitan introducir muchos argumentos, distinta cantidad de argumentos 
+(si son dos metodos diferentes) o argumentos diferentes (que uno sea tipo string y otro int)
+````java
+//Metodo clase 1
+public void creacionCliente(Cliente cliente){
+   System.out.println("Cargando cliente "+cliente.getNombre());
+}
+//Metodo clase 2
+public void creacionCliente(Cliente cliente,String residencia,int numero){
+   System.out.println("Cargando cliente "+cliente.getNombre()+" con residencia "+ residencia+ " "+ numero);
+}
+//Aspecto
+@Before("execution(public void creacionCliente(org.example.model.Cliente,..))")
+public void metodoConNArgumentos(){
+    System.out.println("Aspect - MethodLotArguments");
+}
+````
+En este caso el aspecto del apartado anterior se ejecutaria tambien cuando se usase el metodo de la clase 1
 # Refs
 [Teoria AOP](https://www.youtube.com/watch?v=AjXPs9nVHow&list=PLU8oAlHdN5Blq85GIxtKjIXdfHPksV_Hm&index=76&pp=iAQB)
 
